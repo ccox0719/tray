@@ -56,8 +56,30 @@
     }
 
     .content .prayer {
-      color: #757575; /* Changed prayer prompt text color to gray */
+      color: #757575;
       font-weight: bold;
+    }
+
+    /* Navigation Buttons */
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .buttons button {
+      background: #1976d2;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .buttons button:hover {
+      background: #0d47a1;
     }
   </style>
   <!-- Google Font -->
@@ -71,33 +93,55 @@
       <p class="question" id="reflection"></p>
       <p class="prayer" id="prayer"></p>
     </div>
+    <div class="buttons">
+      <button id="prev-day">Previous</button>
+      <button id="next-day">Next</button>
+    </div>
   </div>
   <script>
     const url = "https://ccox0719.github.io/tray/bible-study.json";
 
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        const today = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" });
-        const study = data[today] || {
-          scripture: "No study found for today.",
-          reflection: "",
-          prayer: ""
-        };
+    let currentDate = new Date();
 
-        document.getElementById("scripture").innerHTML = `<strong>Scripture:</strong> ${study["Scripture Passage"] || study.scripture}`;
-        document.getElementById("reflection").innerHTML = `<strong>Reflective Question:</strong> ${study["Reflective Question"] || study.reflection}`;
-        document.getElementById("prayer").innerHTML = `<strong>Prayer Prompt:</strong> ${study["Prayer Prompt"] || study.prayer}`;
-      })
-      .catch(error => {
-        console.error("Error loading JSON:", error);
-        document.getElementById("bible-study").innerHTML = "<p>Error loading data. Please try again later.</p>";
-      });
+    function loadDevotional(date) {
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const formattedDate = date.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+          const study = data[formattedDate] || {
+            scripture: "No study found for this date.",
+            reflection: "",
+            prayer: ""
+          };
+
+          document.getElementById("scripture").innerHTML = `<strong>Scripture:</strong> ${study["Scripture Passage"] || study.scripture}`;
+          document.getElementById("reflection").innerHTML = `<strong>Reflective Question:</strong> ${study["Reflective Question"] || study.reflection}`;
+          document.getElementById("prayer").innerHTML = `<strong>Prayer Prompt:</strong> ${study["Prayer Prompt"] || study.prayer}`;
+        })
+        .catch(error => {
+          console.error("Error loading JSON:", error);
+          document.getElementById("bible-study").innerHTML = "<p>Error loading data. Please try again later.</p>";
+        });
+    }
+
+    // Event Listeners for Buttons
+    document.getElementById("prev-day").addEventListener("click", () => {
+      currentDate.setDate(currentDate.getDate() - 1); // Move back one day
+      loadDevotional(currentDate);
+    });
+
+    document.getElementById("next-day").addEventListener("click", () => {
+      currentDate.setDate(currentDate.getDate() + 1); // Move forward one day
+      loadDevotional(currentDate);
+    });
+
+    // Load today's devotional on page load
+    loadDevotional(currentDate);
   </script>
 </body>
 </html>
