@@ -39,7 +39,7 @@
     <p id="prayer"></p>
   </div>
   <script>
-    const url = "https://raw.githubusercontent.com/ccox0719/tray/main/bible-study.json";
+    const url = "https://raw.githubusercontent.com/ccox0719/tray/main/Bible%20Plan.json";
 
     // Fetch the JSON data
     fetch(url)
