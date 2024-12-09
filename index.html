@@ -3,45 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Bible Study</title>
+  <title>Daily Devotional</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Georgia", serif;
       margin: 0;
-      padding: 20px;
-      background-color: #f4f4f9;
+      padding: 0;
+      background: url('https://source.unsplash.com/1600x900/?nature,sunrise') no-repeat center center fixed;
+      background-size: cover;
       color: #333;
     }
     .container {
-      max-width: 600px;
-      margin: auto;
-      background: #ffffff;
+      max-width: 800px;
+      margin: 50px auto;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
-    h2 {
-      color: #2c3e50;
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #8a4f7d;
     }
-    p {
+    .content h2 {
+      font-size: 1.8em;
+      margin: 20px 0;
+      color: #6b4e71;
+    }
+    .content p {
+      font-size: 1.2em;
       line-height: 1.6;
+      margin: 10px 0;
+    }
+    .content .question {
+      font-style: italic;
+      color: #4a4a4a;
+    }
+    .content .prayer {
+      font-weight: bold;
+      color: #5b5b5b;
     }
   </style>
 </head>
 <body>
   <div class="container" id="bible-study">
-    <h1>Daily Bible Study</h1>
-    <h2 id="scripture">Loading...</h2>
-    <p id="reflection"></p>
-    <p id="prayer"></p>
+    <h1>Daily Devotional</h1>
+    <div class="content">
+      <h2 id="scripture">Loading...</h2>
+      <p class="question" id="reflection"></p>
+      <p class="prayer" id="prayer"></p>
+    </div>
   </div>
   <script>
-    const url = "https://ccox0719.github.io/tray/bible-study.json"; // Ensure this URL points to your JSON file
+    const url = "https://ccox0719.github.io/tray/bible-study.json";
 
-    // Fetch the JSON data
     fetch(url)
       .then(response => {
         if (!response.ok) {
@@ -50,20 +67,16 @@
         return response.json();
       })
       .then(data => {
-        // Get today's date in "Month Day" format
         const today = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" });
-
-        // Get today's study data
         const study = data[today] || {
           scripture: "No study found for today.",
           reflection: "",
           prayer: ""
         };
 
-        // Display content
-        document.getElementById("scripture").textContent = study["Scripture Passage"] || study.scripture;
-        document.getElementById("reflection").textContent = study["Reflective Question"] || study.reflection;
-        document.getElementById("prayer").textContent = study["Prayer Prompt"] || study.prayer;
+        document.getElementById("scripture").innerHTML = `<strong>Scripture:</strong> ${study["Scripture Passage"] || study.scripture}`;
+        document.getElementById("reflection").innerHTML = `<strong>Reflective Question:</strong> ${study["Reflective Question"] || study.reflection}`;
+        document.getElementById("prayer").innerHTML = `<strong>Prayer Prompt:</strong> ${study["Prayer Prompt"] || study.prayer}`;
       })
       .catch(error => {
         console.error("Error loading JSON:", error);
