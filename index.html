@@ -10,7 +10,7 @@
       font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #ABA194, #8C271E);
+      background: #ecd444; /* Updated background color */
       color: #333;
       display: flex;
       justify-content: center;
@@ -33,19 +33,19 @@
     h1 {
       font-size: 2.2em;
       margin-bottom: 5px;
-      color: #8C271E;
+      color: #344966; /* Updated title color */
     }
 
     .current-date {
-      font-size: 1em;
-      color: #ABA194;
+      font-size: 1.2em; /* Slightly bigger date */
+      color: #333333; /* Darker color for date */
       margin-bottom: 15px;
     }
 
     /* Content Styles */
     .content h2 {
       font-size: 1.5em;
-      color: #8C271E;
+      color: #344966; /* Updated color for scripture title */
       margin-bottom: 10px;
     }
 
@@ -74,7 +74,7 @@
     }
 
     .buttons button {
-      background: #8C271E;
+      background: #344966; /* Updated button color */
       color: #ffffff;
       border: none;
       border-radius: 8px;
@@ -85,7 +85,7 @@
     }
 
     .buttons button:hover {
-      background: #ABA194;
+      background: #5a6d85;
     }
   </style>
   <!-- Google Font -->
@@ -132,8 +132,8 @@
           };
 
           // Update Content
-          document.getElementById("current-date").textContent = `Date: ${formatDate(date)}`;
-          document.getElementById("scripture").innerHTML = `<strong>Scripture:</strong> ${study["Scripture Passage"] || study.scripture}`;
+          document.getElementById("current-date").textContent = formatDate(date);
+          document.getElementById("scripture").textContent = study["Scripture Passage"] || study.scripture; // Removed "Scripture:"
           document.getElementById("reflection").innerHTML = `<strong>Reflective Question:</strong> ${study["Reflective Question"] || study.reflection}`;
           document.getElementById("prayer").innerHTML = `<strong>Prayer Prompt:</strong> ${study["Prayer Prompt"] || study.prayer}`;
         })
