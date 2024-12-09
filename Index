@@ -39,12 +39,14 @@
     <p id="prayer"></p>
   </div>
   <script>
+    const url = "https://raw.githubusercontent.com/ccox0719/tray/main/bible-study.json";
+
     // Fetch the JSON data
-    fetch('bible-study.json')
+    fetch(url)
       .then(response => response.json())
       .then(data => {
-        // Get today's date
-        const today = new Date().toISOString().split("T")[0];
+        // Get today's date in "YYYY-MM-DD" format
+        const today = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" });
 
         // Get today's study data
         const study = data[today] || {
@@ -54,12 +56,13 @@
         };
 
         // Display content
-        document.getElementById("scripture").textContent = study.scripture;
-        document.getElementById("reflection").textContent = study.reflection;
-        document.getElementById("prayer").textContent = study.prayer;
+        document.getElementById("scripture").textContent = study["Scripture Passage"] || study.scripture;
+        document.getElementById("reflection").textContent = study["Reflective Question"] || study.reflection;
+        document.getElementById("prayer").textContent = study["Prayer Prompt"] || study.prayer;
       })
       .catch(error => {
         console.error("Error loading Bible study data:", error);
+        document.getElementById("bible-study").innerHTML = "<p>Error loading data. Please try again later.</p>";
       });
   </script>
 </body>
