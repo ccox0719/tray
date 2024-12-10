@@ -11,7 +11,7 @@
       margin: 0;
       padding: 0;
       background: #6D6466; /* Dark gray background */
-      color: #333;
+      color: #8C8C8C; /* Uniform gray for all text */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -37,32 +37,36 @@
     }
 
     .current-date {
-      font-size: 1.2em; /* Slightly bigger date */
-      color: #ffffff; /* White date text for contrast */
+      font-size: 1em; /* Slightly smaller date */
+      color: #6D6466; /* Dark gray */
       margin-bottom: 15px;
     }
 
     /* Content Styles */
     .content h2 {
-      font-size: 1.5em;
-      color: #6D6466; /* Dark gray for scripture reference */
+      font-size: 1.3em; /* Smaller scripture reference */
+      color: #8C8C8C; /* Uniform gray for scripture reference */
       margin-bottom: 10px;
     }
 
-    .content p {
-      font-size: 1.1em;
-      line-height: 1.6;
-      margin: 15px 0;
-      color: #ffffff; /* White for main text content */
+    .content .passage {
+      font-family: 'Merriweather', serif; /* Readable serif font for passage */
+      font-size: 0.9em; /* Slightly smaller font */
+      line-height: 1.5; /* Compact line spacing */
+      color: #8C8C8C; /* Uniform gray for passage text */
+      text-align: justify; /* Justified for better readability */
+      margin-bottom: 15px;
+    }
+
+    .content .question, .content .prayer {
+      font-size: 0.95em; /* Slightly smaller font for questions and prayers */
     }
 
     .content .question {
-      color: #dddddd; /* Light gray for questions */
       font-style: italic;
     }
 
     .content .prayer {
-      color: #ffffff; /* White for prayer prompt */
       font-weight: bold;
     }
 
@@ -90,7 +94,7 @@
     }
   </style>
   <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container" id="bible-study">
@@ -98,7 +102,7 @@
     <div class="current-date" id="current-date"></div>
     <div class="content">
       <h2 id="reference">Loading...</h2>
-      <p id="passage">Loading...</p>
+      <p class="passage" id="passage">Loading...</p>
       <p class="question" id="reflection"></p>
       <p class="prayer" id="prayer"></p>
     </div>
