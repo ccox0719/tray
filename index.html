@@ -13,21 +13,18 @@ function loadDevotional(date) {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return response.json();
+      return response.json(); // JSON is parsed here
     })
     .then(data => {
-      const formattedDate = formatDate(date); // Format current date
+      const formattedDate = formatDate(date); // Format the date (e.g., "January 1")
       let study = null;
 
-      // Iterate through the JSON to find the matching date
-      for (const entry of Object.values(data)) {
-        if (entry.Date === formattedDate) {
-          study = entry;
-          break;
-        }
+      // If the JSON is an array, use .find() to locate the matching entry
+      if (Array.isArray(data)) {
+        study = data.find(entry => entry.Date === formattedDate);
       }
 
-      // If no matching date is found, display default message
+      // If no matching date is found, display a default message
       if (!study) {
         study = {
           Reference: "No study found for this date.",
@@ -46,18 +43,20 @@ function loadDevotional(date) {
     })
     .catch(error => {
       console.error("Error loading JSON:", error);
-      document.getElementById("bible-study").innerHTML = "<p>Error loading data. Please try again later.</p>";
+      document.getElementById("bible-study").innerHTML = `
+        <p>Error loading data. Please try again later.</p>
+      `;
     });
 }
 
 // Event Listeners for Buttons
 document.getElementById("prev-day").addEventListener("click", () => {
-  currentDate.setDate(currentDate.getDate() - 1);
+  currentDate.setDate(currentDate.getDate() - 1); // Go to the previous day
   loadDevotional(currentDate);
 });
 
 document.getElementById("next-day").addEventListener("click", () => {
-  currentDate.setDate(currentDate.getDate() + 1);
+  currentDate.setDate(currentDate.getDate() + 1); // Go to the next day
   loadDevotional(currentDate);
 });
 
