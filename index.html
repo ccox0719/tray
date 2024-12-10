@@ -10,8 +10,8 @@
       font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
-      background: #6D6466; /* Dark gray background */
-      color: #8C8C8C; /* Uniform gray for all text */
+      background: #F5F5F5; /* Light background for a book-like feel */
+      color: #333333; /* Slightly darker gray for text */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -20,54 +20,59 @@
 
     /* Container */
     .container {
-      max-width: 600px;
+      max-width: 650px; /* Narrower container for book-like appearance */
       width: 90%;
-      background: #59f8e8; /* Aqua background */
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      padding: 20px;
-      text-align: center;
+      background: #FFFFFF; /* White background for content */
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+      padding: 30px;
+      text-align: left; /* Align text to the left for book layout */
     }
 
     /* Header */
     h1 {
-      font-size: 2.2em;
-      margin-bottom: 5px;
-      color: #6D6466; /* Dark gray title color */
+      font-size: 1.8em;
+      margin-bottom: 15px;
+      color: #333333;
+      text-align: center; /* Center title */
     }
 
     .current-date {
-      font-size: 1em; /* Slightly smaller date */
-      color: #6D6466; /* Dark gray */
-      margin-bottom: 15px;
+      font-size: 1em;
+      color: #666666; /* Subdued gray for date */
+      text-align: center;
+      margin-bottom: 20px;
     }
 
     /* Content Styles */
     .content h2 {
-      font-size: 1.3em; /* Smaller scripture reference */
-      color: #8C8C8C; /* Uniform gray for scripture reference */
+      font-size: 1.3em;
+      color: #444444; /* Slightly darker gray for scripture reference */
       margin-bottom: 10px;
+      text-align: center;
     }
 
     .content .passage {
-      font-family: 'Merriweather', serif; /* Readable serif font for passage */
-      font-size: 0.9em; /* Slightly smaller font */
-      line-height: 1.5; /* Compact line spacing */
-      color: #8C8C8C; /* Uniform gray for passage text */
-      text-align: justify; /* Justified for better readability */
-      margin-bottom: 15px;
-    }
-
-    .content .question, .content .prayer {
-      font-size: 0.95em; /* Slightly smaller font for questions and prayers */
+      font-family: 'Georgia', serif; /* Classic serif font for readability */
+      font-size: 1em; /* Standard book font size */
+      line-height: 1.8; /* Comfortable line spacing */
+      text-align: justify; /* Justified text for book-style alignment */
+      color: #333333; /* Neutral dark gray for text */
+      margin-bottom: 20px; /* Spacing below passage */
     }
 
     .content .question {
+      font-size: 0.95em;
       font-style: italic;
+      color: #555555; /* Slightly lighter gray for questions */
+      margin-bottom: 15px;
     }
 
     .content .prayer {
+      font-size: 0.95em;
       font-weight: bold;
+      color: #333333;
+      margin-bottom: 15px;
     }
 
     /* Navigation Buttons */
@@ -78,23 +83,23 @@
     }
 
     .buttons button {
-      background: #6D6466; /* Dark gray button background */
-      color: #59f8e8; /* Aqua text on buttons */
+      background: #333333; /* Dark button background */
+      color: #FFFFFF; /* White text on buttons */
       border: none;
-      border-radius: 8px;
-      padding: 10px 20px;
+      border-radius: 5px;
+      padding: 10px 15px;
       font-size: 1em;
       cursor: pointer;
       transition: background 0.3s ease, color 0.3s ease;
     }
 
     .buttons button:hover {
-      background: #59f8e8; /* Aqua background on hover */
-      color: #6D6466; /* Dark gray text on hover */
+      background: #555555; /* Slightly lighter on hover */
+      color: #FFFFFF;
     }
   </style>
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container" id="bible-study">
