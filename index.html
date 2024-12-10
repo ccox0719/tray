@@ -11,7 +11,7 @@
       margin: 0;
       padding: 0;
       background: #6D6466; /* Dark gray background */
-      color: #6D6466; /* Gray text for body */
+      color: #333;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -33,19 +33,19 @@
     h1 {
       font-size: 2.2em;
       margin-bottom: 5px;
-      color: #6D6466; /* Gray title */
+      color: #6D6466; /* Dark gray title color */
     }
 
     .current-date {
-      font-size: 1.2em;
-      color: #6D6466; /* Gray date */
+      font-size: 1.2em; /* Slightly bigger date */
+      color: #ffffff; /* White date text for contrast */
       margin-bottom: 15px;
     }
 
     /* Content Styles */
     .content h2 {
       font-size: 1.5em;
-      color: #6D6466; /* Gray scripture reference */
+      color: #6D6466; /* Dark gray for scripture reference */
       margin-bottom: 10px;
     }
 
@@ -53,17 +53,16 @@
       font-size: 1.1em;
       line-height: 1.6;
       margin: 15px 0;
-      color: #6D6466; /* Gray for main text */
+      color: #ffffff; /* White for main text content */
     }
 
-    /* Highlighted Text */
     .content .question {
-      color: #6D6466; /* Gray for reflective question */
+      color: #dddddd; /* Light gray for questions */
       font-style: italic;
     }
 
     .content .prayer {
-      color: #6D6466; /* Gray for prayer prompt */
+      color: #ffffff; /* White for prayer prompt */
       font-weight: bold;
     }
 
@@ -87,7 +86,7 @@
 
     .buttons button:hover {
       background: #59f8e8; /* Aqua background on hover */
-      color: #6D6466; /* Gray text on hover */
+      color: #6D6466; /* Dark gray text on hover */
     }
   </style>
   <!-- Google Font -->
@@ -98,7 +97,8 @@
     <h1>Daily Devotional</h1>
     <div class="current-date" id="current-date"></div>
     <div class="content">
-      <h2 id="scripture">Loading...</h2>
+      <h2 id="reference">Loading...</h2>
+      <p id="passage">Loading...</p>
       <p class="question" id="reflection"></p>
       <p class="prayer" id="prayer"></p>
     </div>
@@ -113,7 +113,8 @@
     let currentDate = new Date();
 
     function formatDate(date) {
-      const options = { month: "long", day: "numeric", year: "numeric" };
+      // Format current date as "Month Day" (e.g., "December 31")
+      const options = { month: "long", day: "numeric" };
       return date.toLocaleDateString("en-US", options);
     }
 
@@ -126,16 +127,17 @@
           return response.json();
         })
         .then(data => {
-          const formattedDate = date.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+          const formattedDate = formatDate(date); // Format the current date to match the JSON key
           const study = data[formattedDate] || {
-            scripture: "No study found for this date.",
+            reference: "No study found for this date.",
+            passage: "",
             reflection: "",
             prayer: ""
           };
 
-          // Update Content
           document.getElementById("current-date").textContent = formatDate(date);
-          document.getElementById("scripture").textContent = study["Scripture Passage"] || study.scripture; // Removed "Scripture:"
+          document.getElementById("reference").textContent = study["Reference"] || study.reference;
+          document.getElementById("passage").textContent = study["Passage"] || study.passage;
           document.getElementById("reflection").innerHTML = `<strong>Reflective Question:</strong> ${study["Reflective Question"] || study.reflection}`;
           document.getElementById("prayer").innerHTML = `<strong>Prayer Prompt:</strong> ${study["Prayer Prompt"] || study.prayer}`;
         })
