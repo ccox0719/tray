@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Devotional</title>
+  <title>In His Presence</title>
   <style>
     /* General Styles */
     body {
@@ -31,9 +31,10 @@
 
     /* Header */
     h1 {
-      font-size: 1.8em;
+      font-family: 'Playfair Display', serif; /* Elegant serif font for the title */
+      font-size: 2em;
       margin-bottom: 15px;
-      color: #333333;
+      color: #444444; /* Slightly darker gray for emphasis */
       text-align: center; /* Center title */
     }
 
@@ -58,21 +59,13 @@
       line-height: 1.8; /* Comfortable line spacing */
       text-align: justify; /* Justified text for book-style alignment */
       color: #333333; /* Neutral dark gray for text */
-      margin-bottom: 20px; /* Spacing below passage */
+      margin-bottom: 25px; /* Extra space between sections */
     }
 
-    .content .question {
-      font-size: 0.95em;
-      font-style: italic;
-      color: #555555; /* Slightly lighter gray for questions */
-      margin-bottom: 15px;
-    }
-
-    .content .prayer {
-      font-size: 0.95em;
-      font-weight: bold;
-      color: #333333;
-      margin-bottom: 15px;
+    .content .question, .content .prayer {
+      font-size: 1em; /* Standard font size */
+      color: #555555; /* Unified lighter gray for questions and prayers */
+      margin-bottom: 20px; /* Spacing between sections */
     }
 
     /* Navigation Buttons */
@@ -99,11 +92,11 @@
     }
   </style>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container" id="bible-study">
-    <h1>Daily Devotional</h1>
+    <h1>In His Presence</h1>
     <div class="current-date" id="current-date"></div>
     <div class="content">
       <h2 id="reference">Loading...</h2>
@@ -147,8 +140,8 @@
           document.getElementById("current-date").textContent = formatDate(date);
           document.getElementById("reference").textContent = study["Reference"] || study.reference;
           document.getElementById("passage").textContent = study["Passage"] || study.passage;
-          document.getElementById("reflection").innerHTML = `<strong>Reflective Question:</strong> ${study["Reflective Question"] || study.reflection}`;
-          document.getElementById("prayer").innerHTML = `<strong>Prayer Prompt:</strong> ${study["Prayer Prompt"] || study.prayer}`;
+          document.getElementById("reflection").textContent = study["Reflective Question"] || study.reflection;
+          document.getElementById("prayer").textContent = study["Prayer Prompt"] || study.prayer;
         })
         .catch(error => {
           console.error("Error loading JSON:", error);
