@@ -1,64 +1,165 @@
-const url = "https://ccox0719.github.io/tray/bible-study.json";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Devotional</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #6D6466; /* Dark gray background */
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-let currentDate = new Date();
+    /* Container */
+    .container {
+      max-width: 600px;
+      width: 90%;
+      background: #59f8e8; /* Aqua background */
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      text-align: center;
+    }
 
-function formatDate(date) {
-  const options = { month: "long", day: "numeric" };
-  return date.toLocaleDateString("en-US", options);
-}
+    /* Header */
+    h1 {
+      font-size: 2.2em;
+      margin-bottom: 5px;
+      color: #6D6466; /* Dark gray title color */
+    }
 
-function loadDevotional(date) {
-  fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json(); // JSON is parsed here
-    })
-    .then(data => {
-      const formattedDate = formatDate(date); // Format the date (e.g., "January 1")
-      let study = null;
+    .current-date {
+      font-size: 1.2em; /* Slightly bigger date */
+      color: #ffffff; /* White date text for contrast */
+      margin-bottom: 15px;
+    }
 
-      // If the JSON is an array, use .find() to locate the matching entry
-      if (Array.isArray(data)) {
-        study = data.find(entry => entry.Date === formattedDate);
-      }
+    /* Content Styles */
+    .content h2 {
+      font-size: 1.5em;
+      color: #6D6466; /* Dark gray for scripture reference */
+      margin-bottom: 10px;
+    }
 
-      // If no matching date is found, display a default message
-      if (!study) {
-        study = {
-          Reference: "No study found for this date.",
-          Passage: "",
-          Reflective Question: "",
-          Prayer Prompt: ""
-        };
-      }
+    .content p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin: 15px 0;
+      color: #ffffff; /* White for main text content */
+    }
 
-      // Update the page content
-      document.getElementById("current-date").textContent = formattedDate;
-      document.getElementById("reference").textContent = study.Reference;
-      document.getElementById("passage").textContent = study.Passage;
-      document.getElementById("reflection").innerHTML = `<strong>Reflective Question:</strong> ${study["Reflective Question"]}`;
-      document.getElementById("prayer").innerHTML = `<strong>Prayer Prompt:</strong> ${study["Prayer Prompt"]}`;
-    })
-    .catch(error => {
-      console.error("Error loading JSON:", error);
-      document.getElementById("bible-study").innerHTML = `
-        <p>Error loading data. Please try again later.</p>
-      `;
+    .content .question {
+      color: #dddddd; /* Light gray for questions */
+      font-style: italic;
+    }
+
+    .content .prayer {
+      color: #ffffff; /* White for prayer prompt */
+      font-weight: bold;
+    }
+
+    /* Navigation Buttons */
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .buttons button {
+      background: #6D6466; /* Dark gray button background */
+      color: #59f8e8; /* Aqua text on buttons */
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .buttons button:hover {
+      background: #59f8e8; /* Aqua background on hover */
+      color: #6D6466; /* Dark gray text on hover */
+    }
+  </style>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container" id="bible-study">
+    <h1>Daily Devotional</h1>
+    <div class="current-date" id="current-date"></div>
+    <div class="content">
+      <h2 id="reference">Loading...</h2>
+      <p id="passage">Loading...</p>
+      <p class="question" id="reflection"></p>
+      <p class="prayer" id="prayer"></p>
+    </div>
+    <div class="buttons">
+      <button id="prev-day">Previous</button>
+      <button id="next-day">Next</button>
+    </div>
+  </div>
+  <script>
+    const url = "https://ccox0719.github.io/tray/bible-study.json";
+
+    let currentDate = new Date();
+
+    function formatDate(date) {
+      // Format current date as "Month Day" (e.g., "December 31")
+      const options = { month: "long", day: "numeric" };
+      return date.toLocaleDateString("en-US", options);
+    }
+
+    function loadDevotional(date) {
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const formattedDate = formatDate(date); // Format the current date to match the JSON key
+          const study = data[formattedDate] || {
+            reference: "No study found for this date.",
+            passage: "",
+            reflection: "",
+            prayer: ""
+          };
+
+          document.getElementById("current-date").textContent = formatDate(date);
+          document.getElementById("reference").textContent = study["Reference"] || study.reference;
+          document.getElementById("passage").textContent = study["Passage"] || study.passage;
+          document.getElementById("reflection").innerHTML = `<strong>Reflective Question:</strong> ${study["Reflective Question"] || study.reflection}`;
+          document.getElementById("prayer").innerHTML = `<strong>Prayer Prompt:</strong> ${study["Prayer Prompt"] || study.prayer}`;
+        })
+        .catch(error => {
+          console.error("Error loading JSON:", error);
+          document.getElementById("bible-study").innerHTML = "<p>Error loading data. Please try again later.</p>";
+        });
+    }
+
+    // Event Listeners for Buttons
+    document.getElementById("prev-day").addEventListener("click", () => {
+      currentDate.setDate(currentDate.getDate() - 1); // Move back one day
+      loadDevotional(currentDate);
     });
-}
 
-// Event Listeners for Buttons
-document.getElementById("prev-day").addEventListener("click", () => {
-  currentDate.setDate(currentDate.getDate() - 1); // Go to the previous day
-  loadDevotional(currentDate);
-});
+    document.getElementById("next-day").addEventListener("click", () => {
+      currentDate.setDate(currentDate.getDate() + 1); // Move forward one day
+      loadDevotional(currentDate);
+    });
 
-document.getElementById("next-day").addEventListener("click", () => {
-  currentDate.setDate(currentDate.getDate() + 1); // Go to the next day
-  loadDevotional(currentDate);
-});
-
-// Load today's devotional on page load
-loadDevotional(currentDate);
+    // Load today's devotional on page load
+    loadDevotional(currentDate);
+  </script>
+</body>
+</html>
