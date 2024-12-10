@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,10 +66,21 @@
       margin-bottom: 25px; /* Extra space between sections */
     }
 
-    .content .question, .content .prayer {
+    .content .question {
       font-size: 1em; /* Standard font size */
-      color: #555555; /* Unified lighter gray for questions and prayers */
-      margin-bottom: 20px; /* Spacing between sections */
+      color: #555555; /* Unified lighter gray for questions */
+      margin-bottom: 15px;
+    }
+
+    .content .divider {
+      border-top: 1px solid #CCCCCC; /* Light gray line */
+      margin: 15px 0; /* Add spacing around the line */
+    }
+
+    .content .prayer {
+      font-size: 1em; /* Standard font size */
+      color: #555555; /* Unified lighter gray for prayer */
+      margin-bottom: 20px; /* Spacing below */
     }
 
     /* Navigation Buttons */
@@ -106,6 +117,7 @@
       <h2 id="reference">Loading...</h2>
       <p class="passage" id="passage">Loading...</p>
       <p class="question" id="reflection"></p>
+      <div class="divider"></div>
       <p class="prayer" id="prayer"></p>
     </div>
     <div class="buttons">
