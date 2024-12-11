@@ -105,28 +105,34 @@
       color: #333333;
     }
 
-    .streak-bar {
-      width: 100%;
-      background: #444444;
-      color: #FFFFEA;
-      padding: 10px;
-      border-radius: 10px;
-      text-align: center;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    #streak-text {
+    .streak-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%; /* Makes it circular */
+      background: #539987; /* Soft green background */
+      color: #333333; /* Dark text for contrast */
       font-size: 1.2em;
       font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+      margin: 0 auto 20px; /* Center it and add spacing below */
+    }
+
+    .streak-badge .streak-label {
+      font-size: 0.8em;
+      margin-top: 2px;
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container" id="bible-study">
-    <div class="streak-bar">
-      <p id="streak-text">Streak: 0 Days</p>
+    <div class="streak-badge">
+      <span id="streak-number">0</span>
+      <span class="streak-label">Days</span>
     </div>
     <h1>In His Presence</h1>
     <div class="current-date" id="current-date">Loading...</div>
@@ -181,7 +187,7 @@
         });
     }
 
-    function updateStreak() {
+    function updateStreakBadge() {
       const streakKey = "dailyDevotionalStreak";
       const lastVisitKey = "lastVisitDate";
 
@@ -198,7 +204,7 @@
       localStorage.setItem(lastVisitKey, today);
       localStorage.setItem(streakKey, streak);
 
-      document.getElementById("streak-text").textContent = `Streak: ${streak} Days`;
+      document.getElementById("streak-number").textContent = streak;
     }
 
     document.getElementById("prev-day").addEventListener("click", () => {
@@ -212,7 +218,7 @@
     });
 
     loadDevotional(currentDate);
-    updateStreak();
+    updateStreakBadge();
   </script>
 </body>
 </html>
