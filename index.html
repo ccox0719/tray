@@ -46,8 +46,8 @@
       align-items: center;
       justify-content: center;
       width: 80px; /* Slightly larger badge */
-      height: 90px;
-      background: linear-gradient(145deg, #539987, #88c0a8); /* Subtle gradient */
+      height: 80px;
+      background: #539987; /* Soft green background */
       border-radius: 50%; /* Circular shape */
       color: #FFFFEA; /* Light beige text */
       font-size: 1.2em; /* Adjust text size for the number */
@@ -58,23 +58,9 @@
     }
 
     .streak-badge .streak-label {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       margin-top: 5px;
-      font-size: 0.8em; /* Smaller font size for "Days" */
+      font-size: 0.9em; /* Smaller font size for the label */
       font-weight: normal;
-    }
-
-    .fire-icon {
-      width: 24px; /* Icon size */
-      height: 24px;
-      margin-top: 5px;
-    }
-
-    .streak-badge #streak-number {
-      font-size: 1.5em; /* Larger number */
-      font-family: 'Roboto Mono', monospace;
     }
 
     .current-date {
@@ -131,18 +117,13 @@
       color: #333333;
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&family=Playfair+Display:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <div class="streak-badge">
       <span id="streak-number">0</span>
-      <div class="streak-label">
-        <svg xmlns="http://www.w3.org/2000/svg" class="fire-icon" viewBox="0 0 24 24">
-          <path d="M12 2c3.866 0 7 3.134 7 7 0 5.25-7 13-7 13s-7-7.75-7-13c0-3.866 3.134-7 7-7zm0 3.4c-1.99 0-3.6 1.61-3.6 3.6 0 1.59 2.42 5.06 3.6 6.87 1.18-1.81 3.6-5.28 3.6-6.87 0-1.99-1.61-3.6-3.6-3.6zm-.9 1.9a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z" fill="#333333"/>
-        </svg>
-        <span>Days</span>
-      </div>
+      <span class="streak-label">days streak</span>
     </div>
     <h1>In His Presence</h1>
     <div class="current-date" id="current-date">Loading...</div>
@@ -158,5 +139,78 @@
       <button id="next-day">Next</button>
     </div>
   </div>
+
+  <script>
+    const url = "https://ccox0719.github.io/tray/bible-study.json";
+
+    let currentDate = new Date();
+
+    function formatDate(date) {
+      const options = { month: "long", day: "numeric" };
+      return date.toLocaleDateString("en-US", options);
+    }
+
+    function loadDevotional(date) {
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const formattedDate = formatDate(date);
+          const study = data[formattedDate] || {
+            reference: "No study found for this date.",
+            passage: "",
+            reflection: "",
+            prayer: ""
+          };
+
+          document.getElementById("current-date").textContent = formattedDate;
+          document.getElementById("reference").textContent = study["Reference"] || study.reference;
+          document.getElementById("passage").textContent = study["Passage"] || study.passage;
+          document.getElementById("reflection").textContent = study["Reflective Question"] || study.reflection;
+          document.getElementById("prayer").textContent = study["Prayer Prompt"] || study.prayer;
+        })
+        .catch(error => {
+          console.error("Error loading JSON:", error);
+          document.getElementById("bible-study").innerHTML = "<p>Error loading data. Please try again later.</p>";
+        });
+    }
+
+    function updateStreakBadge() {
+      const streakKey = "dailyDevotionalStreak";
+      const lastVisitKey = "lastVisitDate";
+
+      const today = new Date().toDateString();
+      const lastVisit = localStorage.getItem(lastVisitKey);
+      let streak = parseInt(localStorage.getItem(streakKey)) || 0;
+
+      if (lastVisit && new Date(lastVisit).toDateString() === new Date(new Date().setDate(new Date().getDate() - 1)).toDateString()) {
+        streak++;
+      } else if (lastVisit !== today) {
+        streak = 1;
+      }
+
+      localStorage.setItem(lastVisitKey, today);
+      localStorage.setItem(streakKey, streak);
+
+      document.getElementById("streak-number").textContent = streak;
+    }
+
+    document.getElementById("prev-day").addEventListener("click", () => {
+      currentDate.setDate(currentDate.getDate() - 1);
+      loadDevotional(currentDate);
+    });
+
+    document.getElementById("next-day").addEventListener("click", () => {
+      currentDate.setDate(currentDate.getDate() + 1);
+      loadDevotional(currentDate);
+    });
+
+    loadDevotional(currentDate);
+    updateStreakBadge();
+  </script>
 </body>
 </html>
