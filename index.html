@@ -9,83 +9,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>In His Presence</title>
   <style>
-    /* General Styles */
     body {
       font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
       background: #333333; /* Dark gray background */
-      color: #FFFFEA; /* Corrected light beige text color */
+      color: #FFFFEA; /* Light beige text */
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
     }
 
-    /* Container */
     .container {
       max-width: 650px;
       width: 90%;
-      background: #333333; /* Dark background matching body */
-      border-radius: 15px; /* Rounded corners */
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow */
-      padding: 40px; /* Spacious padding */
-      text-align: left; /* Align text for readability */
+      background: #333333;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      text-align: left;
     }
 
-    /* Header */
     h1 {
-      font-family: 'Playfair Display', serif; /* Elegant serif font */
-      font-size: 2.5em; /* Larger title */
-      color: #539987; /* Soft green for title */
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5em;
+      color: #539987;
       text-align: center;
-      margin-bottom: 5px; /* Reduce space below title */
+      margin-bottom: 5px;
     }
 
     .current-date {
-      font-size: 1.5em; /* Larger date */
-      color: #FFFFEA; /* Corrected light beige for the date */
+      font-size: 1.5em;
+      color: #FFFFEA;
       text-align: center;
-      margin-bottom: 25px; /* Space below date */
+      margin-bottom: 25px;
     }
 
-    /* Content Styles */
     .content h2 {
       font-size: 1.3em;
-      color: #539987; /* Soft green for section titles */
+      color: #539987;
       margin-bottom: 15px;
       text-align: center;
     }
 
     .content .passage {
-      font-family: 'Georgia', serif; /* Book-style serif font */
-      font-size: 1em; /* Standard readable size */
-      line-height: 1.8; /* Comfortable spacing */
-      text-align: justify; /* Justified text for a clean look */
-      color: #FFFFEA; /* Corrected light beige for passage */
-      margin-bottom: 25px; /* Space between sections */
+      font-family: 'Georgia', serif;
+      font-size: 1em;
+      line-height: 1.8;
+      text-align: justify;
+      color: #FFFFEA;
+      margin-bottom: 25px;
     }
 
     .content .question {
       font-size: 1em;
-      font-style: italic; /* Italics for reflective question */
-      color: #FFFFEA; /* Corrected light beige for questions */
+      font-style: italic;
+      color: #FFFFEA;
       margin-bottom: 15px;
     }
 
     .content .divider {
-      border-top: 1px solid #FFFFEA; /* Beige divider */
+      border-top: 1px solid #FFFFEA;
       margin: 20px 0;
     }
 
     .content .prayer {
       font-size: 1em;
-      font-weight: bold; /* Slightly bold for prayer */
-      color: #FFFFEA; /* Corrected light beige for prayer */
+      font-weight: bold;
+      color: #FFFFEA;
       margin-bottom: 20px;
     }
 
-    /* Navigation Buttons */
     .buttons {
       margin-top: 20px;
       display: flex;
@@ -93,28 +88,46 @@
     }
 
     .buttons button {
-      background: #539987; /* Soft green button background */
-      color: #FFFFEA; /* Corrected light beige text on buttons */
+      background: #539987;
+      color: #FFFFEA;
       border: none;
-      border-radius: 8px; /* Rounded corners */
+      border-radius: 8px;
       padding: 10px 20px;
       font-size: 1em;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.3s ease; /* Smooth transitions */
+      transition: transform 0.2s ease, background 0.3s ease;
     }
 
     .buttons button:hover {
-      transform: scale(1.05); /* Slightly enlarge on hover */
-      background: #FFFFEA; /* Light beige hover */
-      color: #333333; /* Dark gray text on hover */
+      transform: scale(1.05);
+      background: #FFFFEA;
+      color: #333333;
+    }
+
+    .streak-bar {
+      width: 100%;
+      background: #444444;
+      color: #FFFFEA;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    #streak-text {
+      font-size: 1.2em;
+      font-weight: bold;
     }
   </style>
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container" id="bible-study">
+    <div class="streak-bar">
+      <p id="streak-text">Streak: 0 Days</p>
+    </div>
     <h1>In His Presence</h1>
     <div class="current-date" id="current-date">Loading...</div>
     <div class="content">
@@ -135,7 +148,6 @@
     let currentDate = new Date();
 
     function formatDate(date) {
-      // Format current date as "Month Day" (e.g., "December 31")
       const options = { month: "long", day: "numeric" };
       return date.toLocaleDateString("en-US", options);
     }
@@ -149,7 +161,7 @@
           return response.json();
         })
         .then(data => {
-          const formattedDate = formatDate(date); // Format the current date to match the JSON key
+          const formattedDate = formatDate(date);
           const study = data[formattedDate] || {
             reference: "No study found for this date.",
             passage: "",
@@ -157,7 +169,7 @@
             prayer: ""
           };
 
-          document.getElementById("current-date").textContent = formatDate(date);
+          document.getElementById("current-date").textContent = formattedDate;
           document.getElementById("reference").textContent = study["Reference"] || study.reference;
           document.getElementById("passage").textContent = study["Passage"] || study.passage;
           document.getElementById("reflection").textContent = study["Reflective Question"] || study.reflection;
@@ -169,19 +181,38 @@
         });
     }
 
-    // Event Listeners for Buttons
+    function updateStreak() {
+      const streakKey = "dailyDevotionalStreak";
+      const lastVisitKey = "lastVisitDate";
+
+      const today = new Date().toDateString();
+      const lastVisit = localStorage.getItem(lastVisitKey);
+      let streak = parseInt(localStorage.getItem(streakKey)) || 0;
+
+      if (lastVisit && new Date(lastVisit).toDateString() === new Date(new Date().setDate(new Date().getDate() - 1)).toDateString()) {
+        streak++;
+      } else if (lastVisit !== today) {
+        streak = 1;
+      }
+
+      localStorage.setItem(lastVisitKey, today);
+      localStorage.setItem(streakKey, streak);
+
+      document.getElementById("streak-text").textContent = `Streak: ${streak} Days`;
+    }
+
     document.getElementById("prev-day").addEventListener("click", () => {
-      currentDate.setDate(currentDate.getDate() - 1); // Move back one day
+      currentDate.setDate(currentDate.getDate() - 1);
       loadDevotional(currentDate);
     });
 
     document.getElementById("next-day").addEventListener("click", () => {
-      currentDate.setDate(currentDate.getDate() + 1); // Move forward one day
+      currentDate.setDate(currentDate.getDate() + 1);
       loadDevotional(currentDate);
     });
 
-    // Load today's devotional on page load
     loadDevotional(currentDate);
+    updateStreak();
   </script>
 </body>
 </html>
