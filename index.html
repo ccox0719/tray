@@ -26,7 +26,7 @@
     .container {
       max-width: 650px;
       width: 90%;
-      background: #333333; /* Dark gray to match body background */
+      background: #333333; /* Match container background with page */
       border-radius: 15px; /* Rounded corners */
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow */
       padding: 40px; /* Spacious padding */
@@ -36,17 +36,17 @@
     /* Header */
     h1 {
       font-family: 'Playfair Display', serif; /* Elegant serif font */
-      font-size: 2em;
+      font-size: 2.5em; /* Larger title */
       color: #539987; /* Soft green for title */
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 5px; /* Reduce space below title */
     }
 
     .current-date {
-      font-size: 1em;
+      font-size: 1.5em; /* Larger date */
       color: #FFFEA; /* Light beige for the date */
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 25px; /* Create space below date */
     }
 
     /* Content Styles */
@@ -116,7 +116,7 @@
 <body>
   <div class="container" id="bible-study">
     <h1>In His Presence</h1>
-    <div class="current-date" id="current-date"></div>
+    <div class="current-date" id="current-date">Loading...</div>
     <div class="content">
       <h2 id="reference">Loading...</h2>
       <p class="passage" id="passage">Loading...</p>
