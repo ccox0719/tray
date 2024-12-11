@@ -14,8 +14,8 @@
       font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
-      background: #F5F5F5; /* Light background for a book-like feel */
-      color: #333333; /* Slightly darker gray for text */
+      background: linear-gradient(135deg, #F3F4F6, #E5E7EB); /* Gradient background */
+      color: #333333; /* Neutral dark gray text */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -24,64 +24,65 @@
 
     /* Container */
     .container {
-      max-width: 650px; /* Narrower container for book-like appearance */
+      max-width: 650px;
       width: 90%;
-      background: #FFFFFF; /* White background for content */
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
-      padding: 30px;
-      text-align: left; /* Align text to the left for book layout */
+      background: #FFFFFF; /* White background */
+      border-radius: 15px; /* Rounded corners */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      padding: 40px; /* Spacious padding */
+      text-align: left; /* Align text for readability */
     }
 
     /* Header */
     h1 {
-      font-family: 'Playfair Display', serif; /* Elegant serif font for the title */
+      font-family: 'Playfair Display', serif; /* Elegant serif font */
       font-size: 2em;
-      margin-bottom: 15px;
-      color: #444444; /* Slightly darker gray for emphasis */
-      text-align: center; /* Center title */
+      color: #6C63FF; /* Accent purple */
+      text-align: center;
+      margin-bottom: 20px;
     }
 
     .current-date {
       font-size: 1em;
-      color: #666666; /* Subdued gray for date */
+      color: #666666; /* Subdued gray for the date */
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     /* Content Styles */
     .content h2 {
       font-size: 1.3em;
-      color: #444444; /* Slightly darker gray for scripture reference */
-      margin-bottom: 10px;
+      color: #444444; /* Neutral gray */
+      margin-bottom: 15px;
       text-align: center;
     }
 
     .content .passage {
-      font-family: 'Georgia', serif; /* Classic serif font for readability */
-      font-size: 1em; /* Standard book font size */
-      line-height: 1.8; /* Comfortable line spacing */
-      text-align: justify; /* Justified text for book-style alignment */
-      color: #333333; /* Neutral dark gray for text */
-      margin-bottom: 25px; /* Extra space between sections */
+      font-family: 'Georgia', serif; /* Book-style serif font */
+      font-size: 1em; /* Standard readable size */
+      line-height: 1.8; /* Comfortable spacing */
+      text-align: justify; /* Justified text for a clean look */
+      color: #333333;
+      margin-bottom: 25px; /* Space between sections */
     }
 
     .content .question {
-      font-size: 1em; /* Standard font size */
-      font-style: italic; /* Italicized reflective question */
-      color: #555555; /* Unified lighter gray for questions */
+      font-size: 1em;
+      font-style: italic; /* Italics for reflective question */
+      color: #555555; /* Subtle gray for emphasis */
       margin-bottom: 15px;
     }
 
     .content .divider {
-      border-top: 1px solid #CCCCCC; /* Light gray line */
-      margin: 15px 0; /* Add spacing around the line */
+      border-top: 1px solid #E5E7EB; /* Soft gray line */
+      margin: 20px 0;
     }
 
     .content .prayer {
-      font-size: 1em; /* Standard font size */
-      color: #555555; /* Unified lighter gray for prayer */
-      margin-bottom: 20px; /* Spacing below */
+      font-size: 1em;
+      font-weight: bold; /* Slightly bold for prayer */
+      color: #555555;
+      margin-bottom: 20px;
     }
 
     /* Navigation Buttons */
@@ -92,19 +93,20 @@
     }
 
     .buttons button {
-      background: #333333; /* Dark button background */
-      color: #FFFFFF; /* White text on buttons */
+      background: #6C63FF; /* Accent purple */
+      color: #FFFFFF; /* White text */
       border: none;
-      border-radius: 5px;
-      padding: 10px 15px;
+      border-radius: 8px; /* Rounded corners */
+      padding: 10px 20px;
       font-size: 1em;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
       cursor: pointer;
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: transform 0.2s ease, background 0.3s ease; /* Smooth transitions */
     }
 
     .buttons button:hover {
-      background: #555555; /* Slightly lighter on hover */
-      color: #FFFFFF;
+      transform: scale(1.05); /* Slightly enlarge on hover */
+      background: #4A47A3; /* Darker purple */
     }
   </style>
   <!-- Google Fonts -->
