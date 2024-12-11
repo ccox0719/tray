@@ -94,21 +94,35 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 70px; /* Size of the circle */
-      height: 70px;
-      border-radius: 50%; /* Circular shape */
+      width: 70px; /* Size of the badge */
+      height: 90px; /* Adjust height for icon and label */
       background: #539987; /* Soft green background */
-      color: #333333; /* Dark text for contrast */
-      font-size: 1.2em;
+      border-radius: 50%; /* Circular shape */
+      color: #FFFFEA; /* Light beige text */
+      font-size: 1.2em; /* Adjust text size for the number */
       font-weight: bold;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
-      margin: 0 auto 20px; /* Centered and with space below */
+      margin: 0 auto 20px; /* Centered with space below */
+      text-align: center;
     }
 
     .streak-badge .streak-label {
-      font-size: 0.9em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 5px;
+      font-size: 0.8em; /* Smaller font size for "Days" */
       font-weight: normal;
-      margin-top: 2px; /* Slight space between number and label */
+    }
+
+    .fire-icon {
+      width: 24px; /* Icon size */
+      height: 24px;
+      margin-top: 5px;
+    }
+
+    .streak-badge #streak-number {
+      font-size: 1.5em; /* Larger number */
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -117,7 +131,12 @@
   <div class="container">
     <div class="streak-badge">
       <span id="streak-number">0</span>
-      <span class="streak-label">Streak</span>
+      <div class="streak-label">
+        <svg xmlns="http://www.w3.org/2000/svg" class="fire-icon" viewBox="0 0 24 24">
+          <path d="M12 2c3.866 0 7 3.134 7 7 0 5.25-7 13-7 13s-7-7.75-7-13c0-3.866 3.134-7 7-7zm0 3.4c-1.99 0-3.6 1.61-3.6 3.6 0 1.59 2.42 5.06 3.6 6.87 1.18-1.81 3.6-5.28 3.6-6.87 0-1.99-1.61-3.6-3.6-3.6zm-.9 1.9a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z" fill="#333333"/>
+        </svg>
+        <span>Days</span>
+      </div>
     </div>
     <h1>In His Presence</h1>
     <div class="current-date" id="current-date">Loading...</div>
@@ -125,7 +144,6 @@
       <h2 id="reference">Loading...</h2>
       <p class="passage" id="passage">Loading...</p>
       <p class="question" id="reflection"></p>
-      <div class="divider"></div>
       <p class="prayer" id="prayer"></p>
     </div>
     <div class="buttons">
