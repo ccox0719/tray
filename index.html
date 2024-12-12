@@ -1,40 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>In His Presence</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container" id="bible-study">
-    <!-- Streak Badge -->
-    <div class="streak-badge">
-      <span id="streak-number">0</span>
-      <span class="streak-label">Days</span>
-    </div>
+<script>
+  const url = "https://ccox0719.github.io/tray/bible-study.json";
 
-    <!-- Title -->
-    <h1>In His Presence</h1>
+  let currentDate = new Date();
 
-    <!-- Date -->
-    <div class="current-date" id="current-date">Loading...</div>
+  function formatDate(date) {
+    const options = { month: "long", day: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  }
 
-    <!-- Content -->
-    <div class="content">
-      <h2 id="reference">Loading...</h2>
-      <p class="passage" id="passage">Loading...</p>
-      <p class="question" id="reflection"></p>
-      <div class="divider"></div>
-      <p class="prayer" id="prayer"></p>
-    </div>
+  function loadDevotional(date) {
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const formattedDate = formatDate(date);
+        const study = data[formattedDate] || {
+          reference: "No study found for this date.",
+          passage: "",
+          reflection: "",
+          prayer: ""
+        };
 
-    <!-- Navigation Buttons -->
-    <div class="buttons">
-      <button id="prev-day">Previous</button>
-      <button id="next-day">Next</button>
-    </div>
-  </div>
-  <script src="script.js" defer></script>
-</body>
-</html>
+        document.getElementById("current-date").textContent = formattedDate;
+        document.getElementById("reference").textContent = study["Reference"] || study.reference;
+        document.getElementById("passage").textContent = study["Passage"] || study.passage;
+        document.getElementById("reflection").textContent = study["Reflective Question"] || study.reflection;
+        document.getElementById("prayer").textContent = study["Prayer Prompt"] || study.prayer;
+      })
+      .catch(error => {
+        console.error("Error loading JSON:", error);
+        document.getElementById("bible-study").innerHTML = "<p>Error loading data. Please try again later.</p>";
+      });
+  }
+
+  function updateStreakBadge() {
+    const streakKey = "dailyDevotionalStreak";
+    const lastVisitKey = "lastVisitDate";
+
+    const today = new Date().toDateString();
+    const lastVisit = localStorage.getItem(lastVisitKey);
+    let streak = parseInt(localStorage.getItem(streakKey)) || 0;
+
+    if (lastVisit && new Date(lastVisit).toDateString() === new Date(new Date().setDate(new Date().getDate() - 1)).toDateString()) {
+      streak++;
+    } else if (lastVisit !== today) {
+      streak = 1;
+    }
+
+    localStorage.setItem(lastVisitKey, today);
+    localStorage.setItem(streakKey, streak);
+
+    document.getElementById("streak-number").textContent = streak;
+  }
+
+  document.getElementById("prev-day").addEventListener("click", () => {
+    currentDate.setDate(currentDate.getDate() - 1);
+    loadDevotional(currentDate);
+  });
+
+  document.getElementById("next-day").addEventListener("click", () => {
+    currentDate.setDate(currentDate.getDate() + 1);
+    loadDevotional(currentDate);
+  });
+
+  loadDevotional(currentDate);
+  updateStreakBadge();
+</script>
