@@ -1,114 +1,25 @@
-/* General Styles */
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: #1c1c1c; /* Slightly darker background for better contrast */
-  color: #FFFFEA; /* Light beige text */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  background-color: #f9f9f9;
+  color: #333;
 }
 
-/* Container */
-.container {
-  max-width: 700px;
-  width: 90%;
-  background: #2a2a2a; /* Darker container color for contrast */
-  border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
-  padding: 40px;
-  text-align: center;
-}
-
-/* Streak Badge */
-.streak-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
-  font-size: 1.2em;
-}
-
-#streak-number {
-  font-weight: bold;
-}
-
-.streak-label {
-  font-size: 0.9em;
-  color: #aaaaaa; /* Subtle gray for the label */
-}
-
-/* Header */
 h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.5em;
-  color: #539987;
-  margin-bottom: 15px;
-}
-
-/* Current Date */
-.current-date {
-  font-size: 1.2em;
-  color: #FFFFEA;
-  margin-bottom: 20px;
-}
-
-/* Content */
-.content h2 {
-  font-size: 1.3em;
-  color: #539987;
-  margin-bottom: 15px;
-}
-
-.content .passage {
-  font-family: 'Georgia', serif;
-  font-size: 1.1em;
-  line-height: 1.8;
-  color: #FFFFEA;
-  margin-bottom: 25px;
-  text-align: justify;
-}
-
-.content .question {
-  font-size: 1em;
-  font-style: italic;
-  color: #bbbbbb;
-  margin-bottom: 15px;
-}
-
-.content .divider {
-  border-top: 1px solid #555555;
+  text-align: center;
   margin: 20px 0;
 }
 
-.content .prayer {
-  font-size: 1em;
-  font-style: italic;
-  font-weight: bold;
-  color: #FFFFEA;
-  margin-bottom: 20px;
+section {
+  margin: 20px;
 }
 
-/* Buttons */
-.buttons {
-  display: flex;
-  justify-content: space-between;
+ul {
+  list-style-type: none;
+  padding: 0;
 }
 
-.buttons button {
-  background: #539987;
-  color: #FFFFEA;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.buttons button:hover {
-  background: #68b3a4; /* Slightly lighter green on hover */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Add subtle hover shadow */
+li {
+  margin: 10px 0;
 }
