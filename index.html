@@ -12,10 +12,10 @@
 </head>
 <body>
   <div class="container" id="bible-study">
-    <!-- Streak Badge -->
+    <!-- Circular Streak Badge -->
     <div class="streak-badge">
-      <img src="fire.png" alt="Streak Icon" class="streak-icon">
-      <span id="streak-number">0 Days</span>
+      <span id="streak-number">0</span>
+      <span class="streak-label">Days</span>
     </div>
 
     <!-- Title -->
@@ -57,61 +57,4 @@
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
-          return response.json();
-        })
-        .then(data => {
-          const formattedDate = formatDate(date);
-          const study = data[formattedDate] || {
-            reference: "No study found for this date.",
-            passage: "",
-            reflection: "",
-            prayer: ""
-          };
-
-          document.getElementById("current-date").textContent = formattedDate;
-          document.getElementById("reference").textContent = study["Reference"] || study.reference;
-          document.getElementById("passage").textContent = study["Passage"] || study.passage;
-          document.getElementById("reflection").textContent = study["Reflective Question"] || study.reflection;
-          document.getElementById("prayer").textContent = study["Prayer Prompt"] || study.prayer;
-        })
-        .catch(error => {
-          console.error("Error loading JSON:", error);
-          document.getElementById("bible-study").innerHTML = "<p>Error loading data. Please try again later.</p>";
-        });
-    }
-
-    function updateStreakBadge() {
-      const streakKey = "dailyDevotionalStreak";
-      const lastVisitKey = "lastVisitDate";
-
-      const today = new Date().toDateString();
-      const lastVisit = localStorage.getItem(lastVisitKey);
-      let streak = parseInt(localStorage.getItem(streakKey)) || 0;
-
-      if (lastVisit && new Date(lastVisit).toDateString() === new Date(new Date().setDate(new Date().getDate() - 1)).toDateString()) {
-        streak++;
-      } else if (lastVisit !== today) {
-        streak = 1;
-      }
-
-      localStorage.setItem(lastVisitKey, today);
-      localStorage.setItem(streakKey, streak);
-
-      document.getElementById("streak-number").textContent = `${streak} Days`;
-    }
-
-    document.getElementById("prev-day").addEventListener("click", () => {
-      currentDate.setDate(currentDate.getDate() - 1);
-      loadDevotional(currentDate);
-    });
-
-    document.getElementById("next-day").addEventListener("click", () => {
-      currentDate.setDate(currentDate.getDate() + 1);
-      loadDevotional(currentDate);
-    });
-
-    loadDevotional(currentDate);
-    updateStreakBadge();
-  </script>
-</body>
-</html>
+          return
