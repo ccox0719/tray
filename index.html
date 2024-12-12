@@ -12,19 +12,12 @@
 </head>
 <body>
   <div class="container" id="bible-study">
-    <!-- Circular Streak Badge -->
     <div class="streak-badge">
       <span id="streak-number">0</span>
       <span class="streak-label">Days</span>
     </div>
-
-    <!-- Title -->
     <h1>In His Presence</h1>
-
-    <!-- Date -->
     <div class="current-date" id="current-date">Loading...</div>
-
-    <!-- Content -->
     <div class="content">
       <h2 id="reference">Loading...</h2>
       <p class="passage" id="passage">Loading...</p>
@@ -32,29 +25,11 @@
       <div class="divider"></div>
       <p class="prayer" id="prayer"></p>
     </div>
-
-    <!-- Navigation Buttons -->
     <div class="buttons">
       <button id="prev-day">Previous</button>
       <button id="next-day">Next</button>
     </div>
   </div>
-
-  <!-- JavaScript -->
-  <script>
-    const url = "https://ccox0719.github.io/tray/bible-study.json";
-
-    let currentDate = new Date();
-
-    function formatDate(date) {
-      const options = { month: "long", day: "numeric" };
-      return date.toLocaleDateString("en-US", options);
-    }
-
-    function loadDevotional(date) {
-      fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return
+  <script src="script.js" defer></script>
+</body>
+</html>
