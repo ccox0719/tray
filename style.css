@@ -1,120 +1,117 @@
-/* General Styles */
-body {
-  font-family: 'Roboto', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #333333; /* Dark gray background */
-  color: #FFFFEA; /* Light beige text */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In His Presence</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container" id="bible-study">
+    <!-- Circular Streak Badge -->
+    <div class="streak-badge">
+      <span id="streak-number">0</span>
+      <span class="streak-label">Days</span>
+    </div>
 
-/* Container */
-.container {
-  max-width: 650px;
-  width: 90%;
-  background: #333333;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  padding: 40px;
-  text-align: left;
-}
+    <!-- Title -->
+    <h1>In His Presence</h1>
 
-/* Header */
-h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.5em;
-  color: #539987;
-  text-align: center;
-  margin-bottom: 5px;
-}
+    <!-- Date -->
+    <div class="current-date" id="current-date">Loading...</div>
 
-/* Date */
-.current-date {
-  font-size: 1.5em;
-  color: #FFFFEA;
-  text-align: center;
-  margin-bottom: 25px;
-}
+    <!-- Content -->
+    <div class="content">
+      <h2 id="reference">Loading...</h2>
+      <p class="passage" id="passage">Loading...</p>
+      <p class="question" id="reflection"></p>
+      <div class="divider"></div>
+      <p class="prayer" id="prayer"></p>
+    </div>
 
-/* Content */
-.content h2 {
-  font-size: 1.3em;
-  color: #539987;
-  margin-bottom: 15px;
-  text-align: center;
-}
+    <!-- Navigation Buttons -->
+    <div class="buttons">
+      <button id="prev-day">Previous</button>
+      <button id="next-day">Next</button>
+    </div>
+  </div>
 
-.content .passage {
-  font-family: 'Georgia', serif;
-  font-size: 1em;
-  line-height: 1.8;
-  text-align: justify;
-  color: #FFFFEA;
-  margin-bottom: 25px;
-}
+  <!-- JavaScript -->
+  <script>
+    const url = "https://ccox0719.github.io/tray/bible-study.json";
 
-.content .question {
-  font-size: 1em;
-  font-style: italic;
-  color: #FFFFEA;
-  margin-bottom: 15px;
-}
+    let currentDate = new Date();
 
-.content .divider {
-  border-top: 1px solid #FFFFEA;
-  margin: 20px 0;
-}
+    function formatDate(date) {
+      const options = { month: "long", day: "numeric" };
+      return date.toLocaleDateString("en-US", options);
+    }
 
-.content .prayer {
-  font-size: 1em;
-  font-weight: italic;
-  color: #FFFFEA;
-  margin-bottom: 20px;
-}
+    function loadDevotional(date) {
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const formattedDate = formatDate(date);
+          const study = data[formattedDate] || {
+            reference: "No study found for this date.",
+            passage: "",
+            reflection: "",
+            prayer: ""
+          };
 
-/* Buttons */
-.buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-}
+          document.getElementById("current-date").textContent = formattedDate;
+          document.getElementById("reference").textContent = study["Reference"] || study.reference;
+          document.getElementById("passage").textContent = study["Passage"] || study.passage;
+          document.getElementById("reflection").textContent = study["Reflective Question"] || study.reflection;
+          document.getElementById("prayer").textContent = study["Prayer Prompt"] || study.prayer;
+        })
+        .catch(error => {
+          console.error("Error loading JSON:", error);
+          document.getElementById("bible-study").innerHTML = "<p>Error loading data. Please try again later.</p>";
+        });
+    }
 
-.buttons button {
-  background: #539987;
-  color: #FFFFEA;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 1em;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.3s ease;
-}
+    function updateStreakBadge() {
+      const streakKey = "dailyDevotionalStreak";
+      const lastVisitKey = "lastVisitDate";
 
-.buttons button:hover {
-  transform: scale(1.05);
-  background: #FFFFEA;
-  color: #333333;
-}
+      const today = new Date().toDateString();
+      const lastVisit = localStorage.getItem(lastVisitKey);
+      let streak = parseInt(localStorage.getItem(streakKey)) || 0;
 
-/* Streak Badge */
-.streak-badge {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Space between the icon and text */
-  margin: 0 auto 20px; /* Center the streak badge */
-}
+      if (lastVisit && new Date(lastVisit).toDateString() === new Date(new Date().setDate(new Date().getDate() - 1)).toDateString()) {
+        streak++;
+      } else if (lastVisit !== today) {
+        streak = 1;
+      }
 
-.streak-icon {
-  width: 40px; /* Icon size */
-  height: 40px;
-}
+      localStorage.setItem(lastVisitKey, today);
+      localStorage.setItem(streakKey, streak);
 
-#streak-number {
-  font-size: 1.2em; /* Text size */
-  font-weight: bold;
-  color: #FFFFEA; /* Light beige text */
-}
+      document.getElementById("streak-number").textContent = streak;
+    }
+
+    document.getElementById("prev-day").addEventListener("click", () => {
+      currentDate.setDate(currentDate.getDate() - 1);
+      loadDevotional(currentDate);
+    });
+
+    document.getElementById("next-day").addEventListener("click", () => {
+      currentDate.setDate(currentDate.getDate() + 1);
+      loadDevotional(currentDate);
+    });
+
+    loadDevotional(currentDate);
+    updateStreakBadge();
+  </script>
+</body>
+</html>
