@@ -85,7 +85,7 @@ h1 {
   border-radius: 8px;
   padding: 8px 20px; /* Adjusted padding for height */
   font-size: 1em;
-  height: 45px; /* Slightly increased height */
+  height: 60px; /* Slightly increased height */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: transform 0.2s ease, background 0.3s ease;
