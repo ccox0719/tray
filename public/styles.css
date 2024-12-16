@@ -82,20 +82,17 @@ h1 {
   background: #539987;
   color: #FFFFEA;
   border: none;
-  border-radius: 8px; /* Rounded corners */
-  padding: 8px 16px; /* Slightly smaller padding */
-  font-size: 0.9em; /* Slightly smaller font size */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  border-radius: 8px;
+  padding: 8px 20px; /* Adjusted padding for height */
+  font-size: 1em;
+  height: 45px; /* Slightly increased height */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: transform 0.2s ease, background 0.3s ease;
-  flex: 1; /* Ensures equal width for all buttons */
-  max-width: 150px; /* Restricts button size */
-  text-align: center;
-  height: 40px; /* Smaller height */
 }
 
 .buttons button:hover {
-  transform: scale(1.05); /* Slight hover effect */
+  transform: scale(1.05);
   background: #FFFFEA;
   color: #333333;
 }
