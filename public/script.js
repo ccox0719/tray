@@ -8,8 +8,6 @@ function formatDate(date) {
   return date.toLocaleDateString("en-US", options);
 }
 
-
-
 // Function to Load Devotional for the Current Date
 function loadDevotional(date) {
   fetch(url)
