@@ -9,71 +9,6 @@ function formatDate(date) {
   return date.toLocaleDateString("en-US", options);
 }
 
-function loadDailyPrayer() {
-  // Include the `ROL3Profile=eng` parameter for English-only content
-  const apiUrl = 'https://joshuaproject.net/api/v2/upgotd?api_key=5a7a72d15225&ROL3Profile=eng';
-
-  fetch(apiUrl)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("Filtered API Response:", data);
-
-      // Extract the prayer data
-      const prayerData = data.data[0]; // Assuming we only need the first entry
-
-      const prayerFocus = document.getElementById('prayer-focus');
-      const peopleGroup = document.getElementById('people-group');
-      const scriptureReference = document.getElementById('scripture-reference');
-      const scripturePrayer = document.getElementById('scripture-prayer');
-      const photoElement = document.getElementById('people-photo');
-
-      if (prayerData) {
-        prayerFocus.textContent = prayerData.ScripturePrayer || "No prayer focus available.";
-        peopleGroup.textContent = prayerData.PeopNameAcrossCountries || "Unknown people group.";
-        scriptureReference.textContent = prayerData.ScriptureReference || "No scripture reference available.";
-        scripturePrayer.textContent = prayerData.ScripturePrayer || "No prayer text available.";
-
-        if (prayerData.PhotoAddress) {
-          photoElement.src = prayerData.PhotoAddress;
-          photoElement.alt = `Image of ${prayerData.PeopNameAcrossCountries}`;
-        } else {
-          photoElement.src = "";
-          photoElement.alt = "No image available.";
-        }
-      } else {
-        console.error("No prayer data found.");
-        prayerFocus.textContent = "Error loading prayer focus.";
-      }
-    })
-    .catch(error => {
-      console.error("Error fetching daily prayer:", error);
-      const prayerFocus = document.getElementById('prayer-focus');
-      if (prayerFocus) {
-        prayerFocus.textContent = "Error loading prayer focus.";
-      }
-    });
-}
-
-// Call the function to load daily prayer
-loadDailyPrayer();
-// Toggle Prayer Section Visibility
-document.getElementById("toggle-prayer").addEventListener("click", function () {
-  const prayerSection = document.getElementById("prayer-section");
-  const toggleButton = document.getElementById("toggle-prayer");
-
-  if (prayerSection.classList.contains("hidden")) {
-    prayerSection.classList.remove("hidden");
-    toggleButton.textContent = "Hide Harvest Prayer";
-  } else {
-    prayerSection.classList.add("hidden");
-    toggleButton.textContent = "Harvest Prayer";
-  }
-});
 
 
 // Function to Load Devotional for the Current Date
@@ -174,7 +109,6 @@ document.getElementById("next-day").addEventListener("click", () => {
 });
 
 // Initial Page Load
-loadDailyPrayer();
 loadDevotional(currentDate);
 loadMemoryVerse(currentDate);
 updateStreakBadge();
