@@ -1,6 +1,5 @@
 const url = "./bible-study.json";
 const memoryUrl = "./memory.json";
-const apiUrl = "/api/daily-prayer";
 let currentDate = new Date();
 
 // Function to format the date into JSON keys (e.g., "January 1")
