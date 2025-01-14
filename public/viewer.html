@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devotional Viewer</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body data-mode="viewer">
+  <div class="container" id="bible-study">
+    <!-- Streak Badge -->
+    <div class="streak-badge">
+      <span id="streak-number">0</span>
+      <span class="streak-label">Days</span>
+    </div>
+
+    <!-- Header -->
+    <h1>In His Presence</h1>
+
+    <!-- Current Date -->
+    <div class="current-date" id="current-date">Loading...</div>
+
+    <!-- Daily Content -->
+    <div class="content">
+      <h2 id="reference">Loading...</h2>
+      <p class="passage" id="passage">Loading...</p>
+      <p class="question" id="reflection"></p>
+      <div class="divider"></div>
+      <p class="prayer" id="prayer">Loading prayer prompt...</p>
+    </div>
+
+    <!-- Memory Verse -->
+    <div class="weekly-memory-verse">
+      <h2>Memory Verse</h2>
+      <p id="memory-verse">Loading memory verse...</p>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="buttons">
+      <button id="prev-day">Previous</button>
+      <button id="next-day">Next</button>
+    </div>
+  </div>
+
+  <!-- Shared JavaScript -->
+  <script src="./script.js"></script>
+</body>
+</html>
