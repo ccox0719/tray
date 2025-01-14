@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>In His Presence</title>
@@ -45,11 +41,21 @@
     <!-- Navigation Buttons -->
     <div class="buttons">
       <button id="prev-day">Previous</button>
+      <button id="toggle-edit">Toggle Edit Mode</button>
       <button id="next-day">Next</button>
+    </div>
+
+    <!-- Editor Fields -->
+    <div id="editor" style="display: none;">
+      <input type="text" id="edit-reference" placeholder="Edit Reference">
+      <textarea id="edit-passage" placeholder="Edit Passage"></textarea>
+      <textarea id="edit-question" placeholder="Edit Reflective Question"></textarea>
+      <textarea id="edit-prayer" placeholder="Edit Prayer Prompt"></textarea>
+      <button id="save-changes">Save Changes</button>
     </div>
   </div>
 
-  <!-- External JavaScript -->
+  <!-- Include External Script -->
   <script src="./script.js"></script>
 </body>
 </html>

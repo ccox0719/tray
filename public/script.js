@@ -1,26 +1,90 @@
+console.log("Script loaded successfully.");
+
 const url = "./bible-study.json";
 const memoryUrl = "./memory.json";
 let currentDate = new Date();
+let currentContent = {};
 
-// Function to format the date into JSON keys (e.g., "January 1")
+// DOM Elements
+const toggleEditButton = document.getElementById("toggle-edit");
+const editor = document.getElementById("editor");
+const saveChangesButton = document.getElementById("save-changes");
+
+// Ensure elements are found
+if (!toggleEditButton || !editor || !saveChangesButton) {
+  console.error("Required elements not found in DOM");
+}
+
+// Toggle Edit Mode
+toggleEditButton.addEventListener("click", () => {
+  const isEditorVisible = editor.style.display === "block";
+  editor.style.display = isEditorVisible ? "none" : "block";
+
+  if (!isEditorVisible) {
+    populateEditorFields(currentContent); // Populate editor fields on open
+  } else {
+    reloadContent(currentContent); // Reload content on close
+  }
+
+  console.log("Editor Visibility:", editor.style.display);
+});
+
+// Populate Editor Fields
+function populateEditorFields(dayData) {
+  document.getElementById("edit-reference").value = dayData.Reference || "";
+  document.getElementById("edit-passage").value = dayData.Passage || "";
+  document.getElementById("edit-question").value = dayData["Reflective Question"] || "";
+  document.getElementById("edit-prayer").value = dayData["Prayer Prompt"] || "";
+}
+
+// Reload Content
+function reloadContent(dayData) {
+  document.getElementById("reference").textContent = dayData.Reference || "No reference available.";
+  document.getElementById("passage").textContent = dayData.Passage || "No passage available.";
+  document.getElementById("reflection").textContent = dayData["Reflective Question"] || "No reflective question available.";
+  document.getElementById("prayer").textContent = dayData["Prayer Prompt"] || "No prayer prompt available.";
+}
+
+// Save Changes
+saveChangesButton.addEventListener("click", () => {
+  const updatedData = {
+    Reference: document.getElementById("edit-reference").value,
+    Passage: document.getElementById("edit-passage").value,
+    "Reflective Question": document.getElementById("edit-question").value,
+    "Prayer Prompt": document.getElementById("edit-prayer").value,
+  };
+
+  console.log("Updated Data:", updatedData);
+
+  // Update current content and reload content
+  currentContent = updatedData;
+  reloadContent(updatedData);
+
+  // Hide editor after saving
+  editor.style.display = "none";
+  console.log("Changes saved successfully");
+});
+
+// Format Date
 function formatDate(date) {
   const options = { month: "long", day: "numeric" };
   return date.toLocaleDateString("en-US", options);
 }
 
-// Function to Load Devotional for the Current Date
+// Load Devotional
 function loadDevotional(date) {
+  console.log("Loading devotional for date:", date);
+
   fetch(url)
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`Failed to fetch devotional: ${response.status} ${response.statusText}`);
       }
       return response.json();
     })
     .then((data) => {
       const formattedDate = formatDate(date);
       console.log("Formatted Date:", formattedDate);
-      console.log("Data for Date:", data[formattedDate]); // Debugging log
 
       const study = data[formattedDate] || {
         Reference: "No study found for this date.",
@@ -29,43 +93,34 @@ function loadDevotional(date) {
         "Prayer Prompt": "No prayer prompt available.",
       };
 
-      // Update DOM elements
-      document.getElementById("current-date").textContent = formattedDate;
-      document.getElementById("reference").textContent = study.Reference;
-      document.getElementById("passage").textContent = study.Passage;
-      document.getElementById("reflection").textContent = study["Reflective Question"];
-      document.getElementById("prayer").textContent = study["Prayer Prompt"];
+      currentContent = study; // Save current content globally
+      reloadContent(study);
     })
     .catch((error) => {
       console.error("Error loading devotional:", error);
-      document.getElementById("bible-study").innerHTML = `
-        <p>Error loading devotional. Please try again later.</p>
-      `;
+      reloadContent({});
     });
 }
 
-// Function to Load Weekly Memory Verse
+// Load Memory Verse
 function loadMemoryVerse(date) {
+  console.log("Loading memory verse for date:", date);
+
   fetch(memoryUrl)
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`Failed to fetch memory verse: ${response.status} ${response.statusText}`);
       }
       return response.json();
     })
     .then((memoryData) => {
-      console.log("Memory Verse Data:", memoryData); // Debugging log
-
-      // Calculate the current week number
       const weekNumber = Math.ceil((date - new Date(date.getFullYear(), 0, 1)) / (7 * 24 * 60 * 60 * 1000));
-      console.log("Week Number:", weekNumber);
+      const weekData = memoryData[`Week ${weekNumber}`] || {
+        Reference: "No reference available.",
+        Text: "No memory verse available.",
+      };
 
-      const weekData = memoryData[`Week ${weekNumber}`];
-
-      // Update Memory Verse
-      const memoryVerseText = weekData?.Text || "No memory verse available.";
-      const memoryVerseReference = weekData?.Reference || "No reference available.";
-      document.getElementById("memory-verse").textContent = `${memoryVerseReference} - ${memoryVerseText}`;
+      document.getElementById("memory-verse").textContent = `${weekData.Reference} - ${weekData.Text}`;
     })
     .catch((error) => {
       console.error("Error loading memory verse:", error);
@@ -73,7 +128,7 @@ function loadMemoryVerse(date) {
     });
 }
 
-// Function to Update Streak Badge
+// Update Streak Badge
 function updateStreakBadge() {
   const streakKey = "dailyDevotionalStreak";
   const lastVisitKey = "lastVisitDate";
@@ -94,15 +149,17 @@ function updateStreakBadge() {
   document.getElementById("streak-number").textContent = streak;
 }
 
-// Event Listeners for Navigation Buttons
+// Navigation Buttons
 document.getElementById("prev-day").addEventListener("click", () => {
   currentDate.setDate(currentDate.getDate() - 1);
   loadDevotional(currentDate);
+  loadMemoryVerse(currentDate);
 });
 
 document.getElementById("next-day").addEventListener("click", () => {
   currentDate.setDate(currentDate.getDate() + 1);
   loadDevotional(currentDate);
+  loadMemoryVerse(currentDate);
 });
 
 // Initial Page Load

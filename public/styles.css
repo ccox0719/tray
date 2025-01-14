@@ -183,3 +183,50 @@ h1 {
   color: #FFFFEA;
   margin-bottom: 10px;
 }
+#editor {
+  display: none; /* Start hidden */
+  background: #444444; /* Dark background for editor */
+  color: #FFFFEA; /* Light text color */
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+#editor {
+  display: none; /* Hidden by default */
+  background: #444444; /* Dark background */
+  color: #FFFFEA; /* Light text */
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  position: relative; /* Prevents overlap */
+  z-index: 10; /* Keeps it above other content if necessary */
+}
+
+#editor input, #editor textarea {
+  width: 100%; /* Full width for inputs */
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background: #ffffff; /* White background */
+  color: #333333; /* Dark text */
+}
+
+#editor button {
+  display: block;
+  width: auto;
+  margin: 10px 0;
+  padding: 10px 20px;
+  background: #539987; /* Button background */
+  color: #FFFFEA; /* Button text */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#editor button:hover {
+  background: #FFFFEA;
+  color: #333333;
+}
+
