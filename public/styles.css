@@ -80,7 +80,7 @@ h1 {
 
 .buttons button {
   background: #f6871f;
-  color: #FFFFEA;
+  color: #333333;
   border: none;
   border-radius: 8px;
   padding: 8px 20px; /* Adjusted padding for height */
@@ -140,7 +140,7 @@ h1 {
 /* Toggle Button */
 .toggle-button {
   background: #f6871f;
-  color: #FFFFEA;
+  color: #333333;
   border: none;
   border-radius: 8px;
   padding: 10px 20px;
