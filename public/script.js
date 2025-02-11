@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Script loaded successfully.");
 
-  const url = "./bible-study.json";
-  const memoryUrl = "./memory.json";
+  const url = "/bible-study.json";
   let currentDate = new Date();
   let currentContent = {};
 
@@ -15,25 +14,21 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("Editor:", editor);
   console.log("Save Changes Button:", saveChangesButton);
 
-  // Check if Edit Mode Elements Exist
   if (toggleEditButton && editor && saveChangesButton) {
     console.log("Edit Mode: Enabled");
 
-    // Toggle Edit Mode
     toggleEditButton.addEventListener("click", () => {
-      const isEditorVisible = editor.style.display === "block";
-      editor.style.display = isEditorVisible ? "none" : "block";
+      editor.style.display = editor.style.display === "block" ? "none" : "block";
 
-      if (!isEditorVisible) {
-        populateEditorFields(currentContent); // Populate editor fields on open
+      if (editor.style.display === "block") {
+        populateEditorFields(currentContent); // Populate editor when opening
       } else {
-        reloadContent(currentContent); // Reload content on close
+        reloadContent(currentContent); // Reload on close
       }
 
       console.log("Editor Visibility:", editor.style.display);
     });
 
-    // Save Changes
     saveChangesButton.addEventListener("click", () => {
       const updatedData = {
         Reference: document.getElementById("edit-reference").value,
@@ -44,19 +39,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
       console.log("Updated Data:", updatedData);
 
-      // Update current content and reload content
-      currentContent = updatedData;
-      reloadContent(updatedData);
-
-      // Hide editor after saving
-      editor.style.display = "none";
-      console.log("Changes saved successfully.");
+      fetch("/update-json", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date: formatDate(currentDate), updatedData })
+      })
+      .then(response => response.text())
+      .then(message => {
+        console.log(message);
+        editor.style.display = "none";
+        loadDevotional(currentDate);
+      })
+      .catch(error => console.error("❌ Error saving JSON:", error));
     });
   } else {
     console.log("Edit Mode: Not Enabled (Viewer Mode).");
   }
 
-  // Utility Functions
   function populateEditorFields(dayData) {
     document.getElementById("edit-reference").value = dayData.Reference || "";
     document.getElementById("edit-passage").value = dayData.Passage || "";
@@ -64,32 +63,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("edit-prayer").value = dayData["Prayer Prompt"] || "";
   }
 
-  function reloadContent(dayData) {
-    document.getElementById("reference").textContent = dayData.Reference || "No reference available.";
-    document.getElementById("passage").textContent = dayData.Passage || "No passage available.";
-    document.getElementById("reflection").textContent = dayData["Reflective Question"] || "No reflective question available.";
-    document.getElementById("prayer").textContent = dayData["Prayer Prompt"] || "No prayer prompt available.";
-  }
-
-  // Format Date
   function formatDate(date) {
-    const options = { month: "long", day: "numeric" }; // Match JSON key format
+    const options = { month: "long", day: "numeric" };
     return date.toLocaleDateString("en-US", options);
   }
-  
 
-  // Load Devotional
   function loadDevotional(date) {
     console.log("Loading devotional for date:", date);
 
     fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch devotional: ${response.status} ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         const formattedDate = formatDate(date);
         console.log("Formatted Date:", formattedDate);
 
@@ -100,81 +84,31 @@ document.addEventListener("DOMContentLoaded", () => {
           "Prayer Prompt": "No prayer prompt available.",
         };
 
-        currentContent = study; // Save current content globally
+        currentContent = study;
         reloadContent(study);
-
-        // Update displayed date
         document.getElementById("current-date").textContent = formattedDate;
       })
-      .catch((error) => {
-        console.error("Error loading devotional:", error);
-        document.getElementById("current-date").textContent = "Error loading date.";
-        reloadContent({});
-      });
+      .catch(error => console.error("❌ Error loading devotional:", error));
   }
 
-  // Load Memory Verse
-  function loadMemoryVerse(date) {
-    console.log("Loading memory verse for date:", date);
-
-    fetch(memoryUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch memory verse: ${response.status} ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then((memoryData) => {
-        const weekNumber = Math.ceil((date - new Date(date.getFullYear(), 0, 1)) / (7 * 24 * 60 * 60 * 1000));
-        const weekData = memoryData[`Week ${weekNumber}`] || {
-          Reference: "No reference available.",
-          Text: "No memory verse available.",
-        };
-
-        document.getElementById("memory-verse").textContent = `${weekData.Reference} - ${weekData.Text}`;
-      })
-      .catch((error) => {
-        console.error("Error loading memory verse:", error);
-        document.getElementById("memory-verse").textContent = "Error loading memory verse.";
-      });
-  }
-
-  // Update Streak Badge
-  function updateStreakBadge() {
-    const streakKey = "dailyDevotionalStreak";
-    const lastVisitKey = "lastVisitDate";
-
-    const today = new Date().toDateString();
-    const lastVisit = localStorage.getItem(lastVisitKey);
-    let streak = parseInt(localStorage.getItem(streakKey), 10) || 0;
-
-    if (lastVisit && new Date(lastVisit).toDateString() === new Date(new Date().setDate(new Date().getDate() - 1)).toDateString()) {
-      streak++;
-    } else if (lastVisit !== today) {
-      streak = 1;
-    }
-
-    localStorage.setItem(lastVisitKey, today);
-    localStorage.setItem(streakKey, streak);
-
-    document.getElementById("streak-number").textContent = streak;
+  function reloadContent(dayData) {
+    document.getElementById("reference").textContent = dayData.Reference || "No reference available.";
+    document.getElementById("passage").textContent = dayData.Passage || "No passage available.";
+    document.getElementById("reflection").textContent = dayData["Reflective Question"] || "No reflective question available.";
+    document.getElementById("prayer").textContent = dayData["Prayer Prompt"] || "No prayer prompt available.";
   }
 
   // Navigation Buttons
   document.getElementById("prev-day")?.addEventListener("click", () => {
     currentDate.setDate(currentDate.getDate() - 1);
     loadDevotional(currentDate);
-    loadMemoryVerse(currentDate);
   });
 
   document.getElementById("next-day")?.addEventListener("click", () => {
     currentDate.setDate(currentDate.getDate() + 1);
     loadDevotional(currentDate);
-    loadMemoryVerse(currentDate);
   });
 
   // Initial Page Load
   loadDevotional(currentDate);
-  loadMemoryVerse(currentDate);
-  updateStreakBadge();
 });
