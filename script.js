@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Script loaded successfully.");
 
-  const url = "/devotionals.json"; // Make sure the file path matches your setup
+  const url = "devotionals.json"; // Make sure the file path matches your setup
   let currentDate = new Date();
   let currentContent = {};
 
