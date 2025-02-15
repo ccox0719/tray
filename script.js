@@ -25,15 +25,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Function to sanitize text (fixes encoding issues)
-  function sanitizeText(text) {
-    if (!text) return ""; // Handle empty cases
-    return text
-      .replace(/\u2019/g, "'")  // Curly apostrophe → Straight apostrophe
-      .replace(/\u2013|\u2014/g, "-")  // En-dash/Em-dash → Hyphen
-      .replace(/\u201C/g, '"')  // Left curly quote → Straight double quote
-      .replace(/\u201D/g, '"')  // Right curly quote → Straight double quote
-      .replace(/\u2026/g, "...");  // Ellipsis → Three dots
-  }
+function sanitizeText(text) {
+  if (!text) return ""; // Handle empty cases
+
+  return text
+    .replace(/^\s*[\u200B-\u200F\uFEFF]/g, "") // Remove hidden characters at the start
+    .replace(/\u2019/g, "'")  // Curly apostrophe → Straight apostrophe
+    .replace(/\u2013|\u2014/g, "-")  // En-dash/Em-dash → Hyphen
+    .replace(/\u201C/g, '"')  // Left curly quote → Straight double quote
+    .replace(/\u201D/g, '"')  // Right curly quote → Straight double quote
+    .replace(/\u2026/g, "...")  // Ellipsis → Three dots
+    .trim(); // Remove leading/trailing spaces
+}
+
 
   function loadDevotional(date) {
     console.log("Loading devotional for date:", date);
