@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Script loaded successfully.");
 
@@ -68,6 +69,22 @@ document.addEventListener("DOMContentLoaded", () => {
     currentDate.setDate(currentDate.getDate() + 1);
     loadDevotional(currentDate);
   });
+  function sanitizeText(text) {
+  if (!text) return ""; // Handle empty cases
+  return text
+    .replace(/\u2019/g, "'")  // Curly apostrophe → Straight apostrophe
+    .replace(/\u2013|\u2014/g, "-")  // En-dash/Em-dash → Hyphen
+    .replace(/\u201C/g, '"')  // Left curly quote → Straight double quote
+    .replace(/\u201D/g, '"')  // Right curly quote → Straight double quote
+    .replace(/\u2026/g, "...");  // Ellipsis → Three dots
+}
+
+// Example usage in your script
+document.getElementById("reference").textContent = sanitizeText(study.Reference);
+document.getElementById("passage").textContent = sanitizeText(study.Passage);
+document.getElementById("reflection").textContent = sanitizeText(study["Reflective Question"]);
+document.getElementById("prayer").textContent = sanitizeText(study["Prayer Prompt"]);
+
 
   // Initial Page Load
   loadDevotional(currentDate);
