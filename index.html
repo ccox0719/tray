@@ -3,77 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Board Game Quick Setup</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="styles.css">
+    <title>Daily Devotional</title>
     <style>
-        /* Center content on mobile */
         body {
+            font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        main {
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            width: 100%;
-            max-width: 600px;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+            color: #343a40;
+            text-align: center;
         }
-
-        select, button {
-            width: 90%;
+        #container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 400px;
         }
-
-        #gameDetails {
-            width: 90%;
-            max-width: 600px;
+        h1 {
+            margin: 0 0 20px;
+            font-size: 24px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #memory-verse {
+            display: none;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
         }
     </style>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In His Presence</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #333333; /* Dark gray background */
+      color: #FFFFEA; /* Light beige text */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 650px;
+      width: 90%;
+      background: #333333;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      text-align: left;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5em;
+      color: #539987;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .current-date {
+      font-size: 1.75em;
+      color: #FFFFEA;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .content h2 {
+      font-size: 1.3em;
+      color: #539987;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .content .passage {
+      font-family: 'Georgia', serif;
+      font-size: 1em;
+      line-height: 1.8;
+      text-align: justify;
+      color: #FFFFEA;
+      margin-bottom: 25px;
+    }
+
+    .content .question {
+      font-size: 1em;
+      font-family: 'Georgia', serif;
+      color: #FFFFEA;
+      padding: 10px;
+    }
+
+    .content .divider {
+      border-top: 1px solid #FFFFEA;
+      margin: 20px 0;
+    }
+
+    .content .prayer {
+      font-size: 1em;
+      font-family: 'Georgia', serif;
+      color: #FFFFEA;
+      padding: 10px;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .buttons button {
+      background: #539987;
+      color: #FFFFEA;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1em;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    .buttons button:hover {
+      transform: scale(1.05);
+      background: #FFFFEA;
+      color: #333333;
+    }
+
+    .streak-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%; /* Makes it circular */
+      background: #539987; /* Soft green background */
+      color: #333333; /* Dark text for contrast */
+      font-size: 1.2em;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+      margin: 0 auto 20px; /* Center it and add spacing below */
+    }
+
+    .streak-badge .streak-label {
+      font-size: 0.8em;
+      margin-top: 2px;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="container">
+        <h1>Today's Devotional</h1>
+        <p>{{ devotional }}</p>
+        <button onclick="showMemoryVerse()">Show Memory Verse</button>
+        <p id="memory-verse">{{ memory_verse }}</p>
+  <div class="container" id="bible-study">
+    <div class="streak-badge">
+      <span id="streak-number">0</span>
+      <span class="streak-label">Days</span>
+</div>
+    <h1>In His Presence</h1>
+    <div class="current-date" id="current-date">Loading...</div>
+    <div class="content">
+      <h2 id="reference">Loading...</h2>
+      <p class="passage" id="passage">Loading...</p>
+      <p class="question" id="reflection"></p>
+      <div class="divider"></div>
+      <p class="prayer" id="prayer"></p>
+    </div>
+    <div class="buttons">
+      <button id="prev-day">Previous</button>
+      <button id="next-day">Next</button>
+    </div>
+  </div>
+  <script>
+    const url = "https://ccox0719.github.io/tray/bible-study.json";
 
-    <header>
-        <img src="logo.jpg" alt="Board Game Logo" class="logo">
-        <h1 class="main-title">Board Game</h1>
-        <h2 class="subtitle">Quick Setup</h2>
-    </header>
+    let currentDate = new Date();
 
-    <main>
-        <!-- Dropdown to select a game -->
-        <select id="gameSelect" onchange="displaySelectedGame()">
-            <option value="">Select a game...</option>
-        </select>
+    function formatDate(date) {
+      const options = { month: "long", day: "numeric" };
+      return date.toLocaleDateString("en-US", options);
+    }
 
-        <!-- Random Pick Button -->
-        <button id="randomButton" onclick="pickRandomGame()">🎲 Pick a Random Game</button>
+    function loadDevotional(date) {
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const formattedDate = formatDate(date);
+          const study = data[formattedDate] || {
+            reference: "No study found for this date.",
+            passage: "",
+            reflection: "",
+            prayer: ""
+          };
 
-        <!-- Game details section -->
-        <div id="gameDetails" style="display: none;">
-            <h2 id="gameTitle"></h2>
-            <p><strong>Mechanics:</strong> <span id="gameMechanics"></span></p>
-            <p><strong>Playtime:</strong> <span id="gamePlaytime"></span></p>
-            <p><strong>Players:</strong> <span id="gamePlayers"></span></p>
-            <p><strong>Complexity:</strong> <span id="gameComplexity"></span></p>
-            <p><strong>Quick Setup Guide:</strong></p>
-            <div id="gameGuide"></div>
-        </div>
-    </main>
+          document.getElementById("current-date").textContent = formattedDate;
+          document.getElementById("reference").textContent = study["Reference"] || study.reference;
+          document.getElementById("passage").textContent = study["Passage"] || study.passage;
+          document.getElementById("reflection").textContent = study["Reflective Question"] || study.reflection;
+          document.getElementById("prayer").textContent = study["Prayer Prompt"] || study.prayer;
+        })
+        .catch(error => {
+          console.error("Error loading JSON:", error);
+          document.getElementById("bible-study").innerHTML = "<p>Error loading data. Please try again later.</p>";
+        });
+    }
 
-    <footer>
-        <p>© 2024 Board Game Quick Setup Guide</p>
-    </footer>
+    function updateStreakBadge() {
+      const streakKey = "dailyDevotionalStreak";
+      const lastVisitKey = "lastVisitDate";
 
-    <script src="script.js"></script>
+      const today = new Date().toDateString();
+      const lastVisit = localStorage.getItem(lastVisitKey);
+      let streak = parseInt(localStorage.getItem(streakKey)) || 0;
 
+      if (lastVisit && new Date(lastVisit).toDateString() === new Date(new Date().setDate(new Date().getDate() - 1)).toDateString()) {
+        streak++;
+      } else if (lastVisit !== today) {
+        streak = 1;
+      }
+
+      localStorage.setItem(lastVisitKey, today);
+      localStorage.setItem(streakKey, streak);
+
+      document.getElementById("streak-number").textContent = streak;
+    }
+
+    document.getElementById("prev-day").addEventListener("click", () => {
+      currentDate.setDate(currentDate.getDate() - 1);
+      loadDevotional(currentDate);
+    });
+
+    document.getElementById("next-day").addEventListener("click", () => {
+      currentDate.setDate(currentDate.getDate() + 1);
+      loadDevotional(currentDate);
+    });
+
+    <script>
+        function showMemoryVerse() {
+            const verse = document.getElementById('memory-verse');
+            verse.style.display = 'block';
+        }
+    </script>
+    loadDevotional(currentDate);
+    updateStreakBadge();
+  </script>
 </body>
 </html>
