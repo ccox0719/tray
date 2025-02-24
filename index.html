@@ -1,44 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>In His Presence</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Georgia:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <!-- External CSS -->
-  <link rel="stylesheet" href="./styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Game Quick Setup</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Center content on mobile */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        select, button {
+            width: 90%;
+            max-width: 400px;
+        }
+
+        #gameDetails {
+            width: 90%;
+            max-width: 600px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container" id="bible-study">
-    <!-- Logo (replaces Streak Badge) -->
-    <div class="logo-container">
-      <img src="https://res.cloudinary.com/dkmjegf74/image/upload/c_thumb,w_150,g_face/v1739561401/Lion_c6c3ti.png" alt="Logo" class="logo">
-    </div>
 
-    <!-- Header -->
-    <h1>In His Presence</h1>
+    <header>
+        <img src="logo.jpg" alt="Board Game Logo" class="logo">
+        <h1 class="main-title">Board Game</h1>
+        <h2 class="subtitle">Quick Setup</h2>
+    </header>
 
-    <!-- Current Date -->
-    <div class="current-date" id="current-date">Loading...</div>
+    <main>
+        <!-- Dropdown to select a game -->
+        <select id="gameSelect" onchange="displaySelectedGame()">
+            <option value="">Select a game...</option>
+        </select>
 
-    <!-- Daily Content -->
-    <div class="content">
-      <h2 id="reference">Loading...</h2>
-      <p class="passage" id="passage">Loading...</p>
-      <p class="question" id="reflection"></p>
-      <div class="divider"></div>
-      <p class="prayer" id="prayer">Loading prayer prompt...</p>
-    </div>
+        <!-- Random Pick Button -->
+        <button id="randomButton" onclick="pickRandomGame()">🎲 Pick a Random Game</button>
 
-    <!-- Navigation Buttons -->
-    <div class="buttons">
-      <button id="prev-day">Previous</button>
-      <button id="next-day">Next</button>
-    </div>
-  </div>
+        <!-- Game details section -->
+        <div id="gameDetails" style="display: none;">
+            <h2 id="gameTitle"></h2>
+            <p><strong>Mechanics:</strong> <span id="gameMechanics"></span></p>
+            <p><strong>Playtime:</strong> <span id="gamePlaytime"></span></p>
+            <p><strong>Players:</strong> <span id="gamePlayers"></span></p>
+            <p><strong>Complexity:</strong> <span id="gameComplexity"></span></p>
+            <p><strong>Quick Setup Guide:</strong></p>
+            <div id="gameGuide"></div>
+        </div>
+    </main>
 
-  <!-- Include External Script -->
-  <script src="./script.js"></script>
+    <footer>
+        <p>© 2024 Board Game Quick Setup Guide</p>
+    </footer>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
