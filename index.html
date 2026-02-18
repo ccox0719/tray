@@ -1197,7 +1197,17 @@ const STREAK_KEY = 'lumina_streak_v1';
 const SETTINGS_KEY = 'lumina_settings_v1';
 
 const load       = () => { try { return JSON.parse(localStorage.getItem(STORE)) || []; } catch { return []; } };
-const persist    = c  => localStorage.setItem(STORE, JSON.stringify(c));
+const persist    = c  => {
+  try {
+    localStorage.setItem(STORE, JSON.stringify(c));
+    console.log('Saved', c.length, 'cards');
+    return true;
+  } catch (err) {
+    console.error('Failed to save:', err);
+    showToast('Failed to save - storage full?');
+    return false;
+  }
+};
 const loadStreak = () => { try { return JSON.parse(localStorage.getItem(STREAK_KEY)) || { count: 0, last: null }; } catch { return { count: 0, last: null }; } };
 const saveStreak = s  => localStorage.setItem(STREAK_KEY, JSON.stringify(s));
 const loadSettings = () => { try { return JSON.parse(localStorage.getItem(SETTINGS_KEY)) || { darkMode: false }; } catch { return { darkMode: false }; } };
@@ -1494,20 +1504,47 @@ function saveCard() {
 
   if (editId) {
     const i = cards.findIndex(c => c.id === editId);
-    if (i !== -1) cards[i] = { ...cards[i], title, oneliner, source, tags: [...tags], photo: photoData || null, updatedAt: new Date().toISOString() };
+    if (i !== -1) {
+      cards[i] = { ...cards[i], title, oneliner, source, tags: [...tags], photo: photoData || null, updatedAt: new Date().toISOString() };
+    }
   } else {
-    cards.push({ id: Date.now().toString(), title, oneliner, source, tags: [...tags], photo: photoData || null, createdAt: new Date().toISOString(), lastReviewed: null, confidence: 0 });
+    const newCard = {
+      id: Date.now().toString(),
+      title,
+      oneliner,
+      source,
+      tags: [...tags],
+      photo: photoData || null,
+      createdAt: new Date().toISOString(),
+      lastReviewed: null,
+      confidence: 0
+    };
+    cards.push(newCard);
     touchStreak();
   }
 
   persist(cards);
-  cancelAdd();
+  
+  // Clear form
+  ['inp-title','inp-oneliner','inp-source','edit-id'].forEach(id => document.getElementById(id).value = '');
+  tags = [];
+  photoData = null;
+  renderTags();
+  renderPhotoPreview();
+  onOLChange();
+  
+  // Show success message and go home
+  showToast(editId ? 'Entry updated' : 'Entry saved');
+  showScreen('home');
 }
 
 function cancelAdd() {
   ['inp-title','inp-oneliner','inp-source','edit-id'].forEach(id => document.getElementById(id).value = '');
-  tags = []; photoData = null;
-  renderTags(); renderPhotoPreview(); onOLChange();
+  tags = [];
+  photoData = null;
+  renderTags();
+  renderPhotoPreview();
+  onOLChange();
   showScreen('home');
 }
 
